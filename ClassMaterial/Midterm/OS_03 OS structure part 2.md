@@ -1,0 +1,45 @@
+# OS_03 OS structure part 2
+
+## 목차
+
+- Kernel architecture designs
+  - Kernel architecture designs
+    - Monolithic, Microkernel, Virtualization
+- Monolithic kernel
+  - Monolithic kernel
+    - 커널 전체가 하나의 덩어리(프로그램)
+  - Monolithic kernel: address space aspect
+    - 커널이 각 프로세스의 주소 공간 일부에 매핑되어 같은 주소 공간을 나눠 씀
+  - Monolithic kernel: Cons and Pros
+    - (-) 일부 수정·버그가 전체에 영향 / (+) 함수 호출로 충분, 오버헤드↓
+- Microkernel
+  - Microkernel
+    - 커널 서비스를 기능별 서버로 분리, 각자 독립 주소 공간
+  - Microkernel Pros
+    - 개발·유지보수 쉬움, 서비스 개별 재시작 가능, 안정성↑
+  - Microkernel Cons
+    - 서버 간 메시지 패싱(IPC)·context switch로 성능↓
+  - Hybrid structures
+    - 현대 OS는 특정 구조를 그대로 따르지 않고 혼합형 사용
+- Virtualization
+  - Virtualization
+    - HW:OS를 1:N으로, Host(물리 HW) 위에 여러 Guest
+    - Hypervisor가 HW를 직접 관리하고 Guest에 가상 자원 제공
+  - Virtualization advantages
+    - Consolidation(HW 비용↓), Isolation(Guest 간 격리)
+  - Hypervisor
+    - 각 Guest OS = VM, hypervisor가 VM 간 자원 분배·제한
+  - Hypervisor types (structure)
+    - Type 1: bare-metal / Type 2: hosted (Host OS 위)
+  - Hypervisor Pros and Cons
+    - (+) 여러 OS 동시 실행 / (-) 네이티브보다 성능↓
+  - Performance improvement of hypervisor
+    - Para-virtualization(Guest OS 수정, hypercall) / HW 지원 가속
+  - Another virtualization scheme: container
+    - Guest에 OS 없는 경량 가상화, host 커널 공유
+  - Container (cont'd)
+    - (+) 가볍고 배포 쉬움 / (-) Host OS 종속, 보안
+  - One more: container implementation
+    - 프로세스 그룹의 자원 제한 + 컨테이너 간 ID 격리
+  - One more: recent efforts
+    - 필요한 커널 부분만 포함한 경량 VM, VM과 컨테이너 혼합
