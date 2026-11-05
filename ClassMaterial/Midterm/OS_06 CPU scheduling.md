@@ -1,0 +1,44 @@
+# OS_06 CPU scheduling
+
+## 목차
+
+- Scheduling criteria
+  - What is scheduling?
+    - Ready 프로세스 중 하나에 CPU 할당, 목표: CPU 이용률↑ idle↓
+  - Process execution cycle
+    - CPU burst와 I/O burst 반복, CPU-intensive vs I/O-intensive
+- Structure and behavior of scheduler
+  - Scheduler
+    - 다음 프로세스 선택 + context switch + 유저 프로그램 재개
+  - Scheduler behavior summary
+    - 커널 진입 → old 상태 PCB 저장 → 큐 삽입 → next 선택 → 상태 복원 → 유저 복귀
+  - When does the scheduler run?
+    - (1) time slice 만료(타이머 인터럽트) (2) Waiting 전환(I/O) (3) 종료
+  - Types of scheduling
+    - Non-preemptive: Waiting·종료 시에만 / Preemptive: OS가 강제 전환
+- Scheduling policies
+  - Scheduling criteria
+    - CPU 이용률, waiting time, turnaround time, throughput, response time
+  - Scheduler design
+    - 모든 조건 동시 만족 불가, 시스템 목적에 따라 선택
+  - FCFS scheduling
+    - 도착 순서대로, non-preemptive, 도착 순서에 따라 대기 시간 크게 달라짐
+  - Disadvantage (Convoy effect)
+    - 앞의 긴 작업 때문에 뒤의 짧은 작업이 지연
+  - Shortest Job First (SJF) scheduling
+    - CPU burst 짧은 것부터, 평균 대기 시간 최소
+  - Shortest Remaining Time First (SRTF)
+    - SJF + preemption, 새 작업 도착 시 남은 시간 비교
+  - Problem of SJF and SRTF
+    - CPU burst 시간을 미리 알 수 없음 → 과거 기록으로 예측
+  - Priority scheduling
+    - 우선순위 높은 것부터, starvation 문제 → aging으로 해결
+  - Round robin (RR)
+    - time slice 단위로 돌아가며 할당, 끝나면 ready queue 뒤로
+    - 응답 시간↓, time slice는 context switch 시간보다 커야 함
+  - Relationship between time slice and RR
+    - 크면 FCFS와 같아짐, 작으면 응답성↑ 전환 오버헤드↑
+  - Multilevel Queue scheduling
+    - 큐마다 다른 정책, 큐 간 이동 불가 → starvation
+  - Multilevel Feedback Queue (MLFQ)
+    - 큐 간 이동 허용(aging)으로 starvation 해결
