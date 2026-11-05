@@ -1,0 +1,48 @@
+# OS_05 Process
+
+## 목차
+
+- Abstraction & CPU
+  - Abstraction
+    - HW를 논리 자원(process, file, socket)으로 추상화
+  - CPU from OS perspective
+    - 프로세스 명령 실행 + 이벤트 발생 시 핸들러 실행 후 복귀
+  - How we create and run programs?
+    - Source → Compiler → Object(상대 주소) → Linker → Executable → Loader → Process
+  - Linking: static vs dynamic
+    - Static: 컴파일 시 라이브러리 복사 / Dynamic: 실행 시 연결
+    - Dynamic: 크기↓ 공유 가능 / 로딩 시간↑ 이식성↓
+- Process
+  - Process definition
+    - 실행 중인 프로그램, 자원 분할 단위 + 메모리 보호 영역
+  - Resources on process
+    - 메모리(주소 공간), 파일, 소켓, CPU(time slice)
+  - Process creation: memory perspective
+    - text(코드), data(전역), heap(동적 할당), stack(지역)
+  - Context switch
+    - CPU 점유 프로세스를 Pold → Pnew로 교체
+  - How OS supports context switch
+    - PCB에 old 상태 저장, new 상태 복원
+  - Process control block
+    - 상태, PID, PC, 레지스터, 스케줄링·메모리·I/O 정보
+  - Q) Does system call require context switching?
+    - 시스템 콜은 mode switch만, 같은 프로세스로 복귀
+  - What exactly is a "context"?
+    - CPU 레지스터 + PCB + 메모리 매핑 정보
+  - Context switching bottleneck
+    - 저장·복원도 CPU가 수행 → 피할 수 없는 오버헤드
+  - Process state
+    - New, Ready, Running, Waiting, Terminated
+  - Process state transition
+    - Ready queue / Waiting queue로 관리, 타이머 인터럽트·I/O로 상태 전이
+  - When context switch happens
+    - Time quantum 만료, blocking I/O(→ Waiting), yield(→ Ready)
+- Process APIs
+  - Process APIs
+    - fork()로 생성, exec()로 프로그램 적재
+  - Create a new (child) process: fork()
+    - 부모가 자식 생성, PID로 구분, 트리 구조
+  - Behavior of fork()
+    - 부모 주소 공간 복사, 반환값: 부모 = 자식 PID / 자식 = 0, wait()로 대기
+  - Load a new program and run it: exec()
+    - fork된 프로세스 주소 공간에 새 프로그램 적재·실행
